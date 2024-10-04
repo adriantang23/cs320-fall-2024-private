@@ -1,13 +1,4 @@
-type expr = 
-  | True
-  | False
-  | Num of int
-  | Add of expr * expr
-  | Or of expr * expr
-  | IfThenElse of expr * expr * expr
-type ty = 
-| Int
-| Bool
+open Assign04_02
 type value = 
   | VNum of int
   | VBool of bool
@@ -30,3 +21,4 @@ let rec eval e =
       | VBool true -> eval e1
       | VBool false -> eval e2
       | _ -> failwith "Type error")
+

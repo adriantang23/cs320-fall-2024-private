@@ -1,3 +1,4 @@
+
 type ident = string
 type expr' = 
   | True
@@ -39,3 +40,4 @@ let rec type_of' gamma e =
         match type_of' gamma e1 with
         | Some ty -> type_of' ((v, ty) :: gamma) e2
         | None -> None
+
