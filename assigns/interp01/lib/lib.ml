@@ -24,6 +24,9 @@ let rec var_replace y x e =
     | If (cond,e1,e2) -> If ( var_replace y x cond, var_replace y x e1, var_replace y x e2)
     | Let (z,e1,e2) ->
         if z = x then Let (z, var_replace y x e1,e2) else Let (z, var_replace y x e1, var_replace y x e2)
+    | LetRec (z,e1,e2) ->
+        if z = x then LetRec (z,e1,e2)
+        else LetRec (z, var_replace y x e1, var_replace y x e2)
 
 let rec subst v x e =
     match e with
@@ -123,6 +126,15 @@ let rec eval e =
         match eval e1 with
         | Ok v1 -> eval (subst v1 x e2)
         | Error err -> Error err
+    )
+
+    | LetRec (x, e1, e2) -> (
+        match eval (Fun (x, e1)) with
+        | Ok (VFun (x, e1')) ->
+            let e1' = subst (VFun (x, e1)) x e1' in
+            eval (subst (VFun (x, e1')) x e2)
+        | Error err -> Error err
+        | _ -> Error InvalidApp
     )
 
 let interp s =

@@ -15,6 +15,7 @@ rule read =
   | "let" { LET }
   | "in" { IN }
   | "fun" { FUN }
+  | "rec" { REC }
   | "true" { TRUE }
   | "false" { FALSE }
   | "->" { ARROW }

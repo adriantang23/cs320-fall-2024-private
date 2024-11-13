@@ -11,6 +11,7 @@ type expr =
   | Bop of bop * expr * expr
   | If of expr * expr * expr
   | Let of string * expr * expr
+  | LetRec of string * expr * expr
   | Fun of string * expr
 
 type prog = expr

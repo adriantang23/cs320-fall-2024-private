@@ -13,6 +13,7 @@ let rec make e ex =
 %token ADD SUB MUL DIV MOD LT LTE GT GTE EQ NEQ AND OR
 %token TRUE FALSE
 %token LPAREN RPAREN EOF
+%token REC
 
 %left OR
 %left AND
@@ -30,6 +31,7 @@ prog:
 expr:
   | IF cond=expr THEN thn=expr ELSE els=expr { If (cond,thn,els) }
   | LET var=VAR EQ value=expr IN body=expr { Let (var,value,body) }
+  | LET REC var=VAR EQ value=expr IN body=expr { LetRec (var,value,body) }
   | FUN param=VAR ARROW body=expr { Fun (param,body) }
   | e=expr2 { e }
 
