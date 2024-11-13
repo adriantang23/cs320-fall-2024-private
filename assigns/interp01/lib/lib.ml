@@ -98,6 +98,20 @@ let rec eval e =
         | Error err -> Error err
     )
 
+    | Bop (Or, e1, e2) -> (
+        match eval e1 with
+        | Ok (VBool true) -> Ok (VBool true)
+        | Ok (VBool false) -> eval e2
+        | Ok _ -> Error (InvalidArgs Or)
+        | Error err -> Error err
+    )
+        | Bop (And, e1, e2) -> (
+        match eval e1 with
+        | Ok (VBool false) -> Ok (VBool false)
+        | Ok (VBool true) -> eval e2
+        | Ok _ -> Error (InvalidArgs Or)
+        | Error err -> Error err
+    )
     | Bop (op,e1,e2) -> (
         match eval e1, eval e2 with
         | Ok v1, Ok v2 -> bop_eval op v1 v2
