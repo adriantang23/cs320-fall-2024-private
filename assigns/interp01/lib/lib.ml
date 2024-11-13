@@ -35,13 +35,16 @@ let rec subst v x e =
         if x = y then Fun(y,e)
         else
             let y' = gensym() in 
-            Fun(y',subst v x (var_replace y' y e))
+            let e' = var_replace y' y e in
+            Fun (y', subst v x e')
     | If (cond, e1, e2) -> If (subst v x cond, subst v x e1, subst v x e2)
     | Bop (op, e1, e2) -> Bop (op, subst v x e1, subst v x e2)
     | Let (y, e1, e2) -> 
         if x = y then Let (y, subst v x e1, e2) 
         else
-            let y' = gensym () in Let (y',subst v x (var_replace y' y e1), subst v x e2)
+            let y' = gensym () in 
+            let e2' = var_replace y' y e2 in
+            Let (y', subst v x e1, subst v x e2')
     | _ -> e
 
 let bop_eval op v1 v2 = 
