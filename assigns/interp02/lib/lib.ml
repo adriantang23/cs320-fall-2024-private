@@ -232,7 +232,7 @@ let eval expr =
   eval Env.empty expr
 
 let interp str =
-  match parse_program str with
+  match parse str with
   | Some prog -> (
       let expr = desugar prog in
       match type_of expr with
