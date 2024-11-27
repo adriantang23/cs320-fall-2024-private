@@ -1,6 +1,6 @@
 open Utils
 
-let parse_program = My_parser.parse
+let parse = My_parser.parse
 
 let desugar prog =
   let rec transform_expression = function
