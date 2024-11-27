@@ -8,6 +8,7 @@ let var = ['a'-'z' '_'] ['a'-'z' 'A'-'Z' '0'-'9' '_' '\'']*
 
 rule read =
   parse
+  | whitespace { read lexbuf }
   | "if" { IF }
   | "then" { THEN }
   | "else" { ELSE }
@@ -18,8 +19,10 @@ rule read =
   | "true" { TRUE }
   | "false" { FALSE }
   | "->" { ARROW }
-  | "(" { LPAREN }
-  | ")" { RPAREN }
+  | "unit" { UNITTY }
+  | "int" { INTTY }
+  | "bool" { BOOLTY }
+
   | "+" { ADD }
   | "-" { SUB }
   | "*" { MUL }
@@ -34,10 +37,11 @@ rule read =
   | "&&" { AND }
   | "||" { OR }
   | ":" { COLON }
-  | "unit" { UNITTY }
-  | "int" { INTTY }
-  | "bool" { BOOLTY }
+  | "(" { LPAREN }
+  | ")" { RPAREN }
+
   | num { NUM (int_of_string (Lexing.lexeme lexbuf)) }
   | var { VAR (Lexing.lexeme lexbuf) }
-  | whitespace { read lexbuf }
   | eof { EOF }
+
+  | _ { failwith ("Unexpected character: " ^ Lexing.lexeme lexbuf) }
